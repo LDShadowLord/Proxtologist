@@ -4,7 +4,8 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>666b5c02-7151-403e-8a4d-03d9821c24a3</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Proxtologist.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,7 +22,17 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Proxtologist.py" />
+    <Content Include="change-vmid\change-vmid.sh" />
+    <Content Include="README.md" />
+    <Content Include="setup.md" />
+    <Content Include="smart-migrate\sm.sh" />
+    <Content Include="start-vms\start-vms.sh" />
+    <Content Include="start-vms\vm-autostart.service" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="change-vmid\" />
+    <Folder Include="start-vms\" />
+    <Folder Include="smart-migrate\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

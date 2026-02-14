@@ -1,0 +1,15 @@
+[Unit]
+Description=Delayed VM Autostart after iSCSI Check
+# This ensures it runs after these services are active
+Requires=iscsid.service pvedaemon.service
+After=network-online.target iscsid.service pvedaemon.service
+
+[Service]
+Type=oneshot
+# This runs your script
+ExecStart=/usr/local/sbin/start-vms.sh
+RemainAfterExit=true
+
+[Install]
+# This hooks the service into the normal system startup process
+WantedBy=multi-user.target
