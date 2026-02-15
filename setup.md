@@ -17,6 +17,20 @@ bash <(curl -sSL https://raw.githubusercontent.com/WarlockSyno/truenasplugin/alp
 For Pangolin Users (Like Myself)
 ```
 curl -fsSL https://static.pangolin.net/get-newt.sh | bash
+cat << 'EOF' > /etc/systemd/system/newt.service 
+[Unit]
+Description=Newt
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/newt --id <yourid> --secret <your_secret> --endpoint <your_endpoint_>
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl enable newt.service --now
 ```
 
 ### Meshcentral Installation
