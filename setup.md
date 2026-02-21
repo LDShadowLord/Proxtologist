@@ -45,3 +45,10 @@ Also ensure that all VM disks are set to discard=1,ssd=1 to improve thin-disk pe
 ```
 zfs set autotrim=on rpool
 ```
+
+### Do native ZFS Snapshots
+```
+apt install zfsnap
+crontab -e 
+58 */6 * * * /usr/sbin/zfSnap -d -a 14d -r rpool/ROOT
+```
