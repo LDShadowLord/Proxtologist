@@ -1,3 +1,4 @@
+cat << 'EOF' > /etc/systemd/system/vm-autostart.service 
 [Unit]
 Description=Delayed VM Autostart after iSCSI Check
 # This ensures it runs after these services are active
@@ -13,3 +14,5 @@ RemainAfterExit=true
 [Install]
 # This hooks the service into the normal system startup process
 WantedBy=multi-user.target
+EOF
+systemctl enable vm-autostart.service --now

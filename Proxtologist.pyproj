@@ -23,6 +23,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="change-vmid\change-vmid.sh" />
+    <Content Include="knowledge.md" />
     <Content Include="README.md" />
     <Content Include="setup.md" />
     <Content Include="smart-migrate\sm.sh" />
