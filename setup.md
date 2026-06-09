@@ -8,9 +8,9 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/Proxmo
 ```
 
 ### TrueNAS PVE Integration
-Will be replaced by the upcoming Official TrueNAS solution.
+Use the APT Install Solution to make it cleaner and keep it up to date.
 ```sh
-bash <(curl -sSL https://raw.githubusercontent.com/WarlockSyno/truenasplugin/alpha/install.sh)
+bash <(curl -sSL https://raw.githubusercontent.com/truenas/truenas-proxmox-plugin/refs/heads/main/install.sh)
 ```
 
 ### Newt Installation
@@ -23,7 +23,7 @@ Description=Newt
 After=network.target
 
 [Service]
-ExecStart=/usr/local/bin/newt --id <yourid> --secret <your_secret> --endpoint <your_endpoint_>
+ExecStart=/usr/local/bin/newt --id dhgdg --secret dgdgdg --endpoint https://dgdgdgdg
 Restart=always
 User=root
 
@@ -43,12 +43,38 @@ Not sharing this link. Get the one from your Meshcentral app. It's specific to t
 ### Increase SSD Lifespan
 Also ensure that all VM disks are set to discard=1,ssd=1 to improve thin-disk performance
 ```
-zfs set autotrim=on rpool
+zpool set autotrim=on rpool
 ```
 
 ### Do native ZFS Snapshots
+This does snapshots of the Proxmox Host (No VM's included)
+You can then replicate these to TrueNAS or another system of your choice for backup purpoises.
 ```
 apt install zfsnap
 crontab -e 
 58 */6 * * * /usr/sbin/zfSnap -d -a 14d -r rpool/ROOT
+```
+
+### Add ZSync for native replication via CLI
+```
+apt install pve-zsync
+```
+
+#### To add to TrueNAS you gotta do this:
+Information stolen from: https://wiki.familybrown.org/pve-replication
+If this is the **first** machine in a cluster you're configuring, then you need to copy a freshly generated SSH Keypair Public Key and do a
+```
+do this on the PVE host
+echo "public key here" >> /root/.ssh/authorized_keys
+```
+
+### Adding back to the cluster
+So you nuked your install and want to rejoin the cluster.
+```
+(on another machine in the cluster)
+pvecm delnode <hostname>
+rm -rf /etc/pve/nodes/<hostname>
+(rejoin to cluster here)
+(on the newly added machine)
+pvecm updatecerts
 ```
