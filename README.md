@@ -23,3 +23,8 @@ Start VMs
 	Must be run on each machine in the cluster.
 	Designed to be run from an autostart service script (provided).
 	Modify the variables in the script to match your own iSCSI/tag environment.
+
+Migrate NEWT to Pangolin.
+	```
+	curl -fsSL https://raw.githubusercontent.com/LDShadowLord/Proxtologist/refs/heads/master/migrate-newt-to-pangolin.sh | bash
+	```
