@@ -5,6 +5,7 @@ This is purely what I do to my own machines, and is neither a guide nor a recomm
 ### Community Scripts
 ```sh
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/post-pve-install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/tools/pve/scaling-governor.sh)"
 ```
 
 ### TrueNAS PVE Integration
@@ -16,21 +17,14 @@ bash <(curl -sSL https://raw.githubusercontent.com/truenas/truenas-proxmox-plugi
 ### Newt Installation
 For Pangolin Users (Like Myself)
 ```
-curl -fsSL https://static.pangolin.net/get-newt.sh | bash
-cat << 'EOF' > /etc/systemd/system/newt.service 
-[Unit]
-Description=Newt
-After=network.target
+curl -fsSL https://static.pangolin.net/get-cli.sh | bash
 
-[Service]
-ExecStart=/usr/local/bin/newt --id dhgdg --secret dgdgdg --endpoint https://dgdgdgdg
-Restart=always
-User=root
+pangolin up site \
+--id 31frd0uzbjvp721 \
+--secret h51mmlknrvrwv8s4r1i210azhumt6isgbpyavxodibx1k2d6 \
+--endpoint https://app.pangolin.net
 
-[Install]
-WantedBy=multi-user.target
-EOF
-systemctl enable newt.service --now
+sudo pangolin service status site
 ```
 
 ### Meshcentral Installation

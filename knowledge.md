@@ -31,3 +31,9 @@ echo "options vfio-pci ids=1028:1f4b" >> /etc/modprobe.d/vfio.conf
 echo "options vfio-pci ids=8086:0953" >> /etc/modprobe.d/vfio.conf
 update-initramfs -u -k all
 ```
+
+## MeshCentral
+```
+meshcmd amtconfig --user admin --pass "your-password" --url "wss://meshcentral.domain/apf.ashx" --id 'use-single-quotes-find-me-in-the-install-path' --dnssuffix "domain"
+
+```
