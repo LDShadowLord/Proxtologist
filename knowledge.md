@@ -35,5 +35,26 @@ update-initramfs -u -k all
 ## MeshCentral
 ```
 meshcmd amtconfig --user admin --pass "your-password" --url "wss://meshcentral.domain/apf.ashx" --id 'use-single-quotes-find-me-in-the-install-path' --dnssuffix "domain"
-
 ```
+
+# NVMe Shenanigans
+## Machine randomly fences itself, locks up, or throws NVMe controller timeouts (APST Bug)
+This happens on Samsung PM9A1 / 980 Pro (and several other consumer/OEM NVMe drives) under Linux. The drive aggressively drops into deep power-saving sleep (Power State 4) after just 100ms of idle. When sudden burst writes hit it, the controller crashes (`Device not ready; aborting reset, CSTS=0x1`), wedges ZFS in D-state, and causes the Proxmox HA watchdog to fence the node.
+
+Fix it by disabling Autonomous Power State Transitions (APST):
+```
+nano /etc/kernel/cmdline
+# append to the existing line:
+nvme_core.default_ps_max_latency_us=0
+
+proxmox-boot-tool refresh
+update-initramfs -u -k all
+reboot
+```
+
+Check if APST is disabled after reboot:
+```
+nvme get-feature /dev/nvme0 -f 0x0c -H
+# Should show "Autonomous Power State Transition Enable (APSTE): Disabled" (or Current value: 0x0)
+```
+
