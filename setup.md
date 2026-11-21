@@ -72,3 +72,9 @@ rm -rf /etc/pve/nodes/<hostname>
 (on the newly added machine)
 pvecm updatecerts
 ```
+
+### One-Liner for Updates
+Do this from an SSH into any node in your cluster.
+```
+for h in $(cat /etc/pve/corosync.conf | grep -o 'ring0_addr: [^<]*' | sed 's/ring0_addr: //g' | tr '\n' ' '); do echo "=== $h ==="; ssh -t "root@${h}" 'apt update && apt upgrade -y && apt autoremove -y'; done
+```
