@@ -78,3 +78,23 @@ Do this from an SSH into any node in your cluster.
 ```
 for h in $(cat /etc/pve/corosync.conf | grep -o 'ring0_addr: [^<]*' | sed 's/ring0_addr: //g' | tr '\n' ' '); do echo "=== $h ==="; ssh -t "root@${h}" 'apt update && apt upgrade -y && apt autoremove -y'; done
 ```
+
+### APT-Cache NG
+Dynamically use the APT Cache if it's available (just in case!)
+```
+cat > /usr/local/bin/apt-proxy-detect.sh' <<'EOF'
+#!/usr/bin/env bash
+if timeout 1 bash -c 'exec 3<>/dev/tcp/192.168.1.177/3142' 2>/dev/null; then
+  echo "http://192.168.1.177:3142"
+else
+  echo "DIRECT"
+fi
+EOF
+
+chmod +x /usr/local/bin/apt-proxy-detect.sh
+
+cat > /etc/apt/apt.conf.d/00aptproxy <<'EOF'
+Acquire::http::Proxy-Auto-Detect "/usr/local/bin/apt-proxy-detect.sh";
+Acquire::https::Proxy "DIRECT";
+EOF
+```
