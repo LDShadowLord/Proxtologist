@@ -82,7 +82,7 @@ for h in $(cat /etc/pve/corosync.conf | grep -o 'ring0_addr: [^<]*' | sed 's/rin
 ### APT-Cache NG
 Dynamically use the APT Cache if it's available (just in case!)
 ```
-cat > /usr/local/bin/apt-proxy-detect.sh' <<'EOF'
+cat > /usr/local/bin/apt-proxy-detect.sh <<'EOF'
 #!/usr/bin/env bash
 if timeout 1 bash -c 'exec 3<>/dev/tcp/192.168.1.177/3142' 2>/dev/null; then
   echo "http://192.168.1.177:3142"
